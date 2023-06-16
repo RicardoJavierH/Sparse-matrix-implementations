@@ -4,7 +4,7 @@
 #include "libreria.h"
 
 //  función para poder imprimir para matrix rectangular
-void printMatrix(const std::vector<std::vector<int>> & M)
+void printMatrix(const std::vector<std::vector<double>> & M)
 {
    int m = M.size();
    int n = M[0].size();
@@ -17,7 +17,7 @@ void printMatrix(const std::vector<std::vector<int>> & M)
 
 
 // para imprimir los vectores val, row_ptr, col_ind.
-void printVector(const std::vector<int> & V, char* msg)
+void printVector(const std::vector<double> & V, char* msg)
 //define una función llamada printVector que toma un vector de enteros y un mensaje como parámetros,
 // e imprime el vector junto con el mensaje, sin realizar ninguna modificación en el vector original.
 {
@@ -32,22 +32,20 @@ void printVector(const std::vector<int> & V, char* msg)
 
 
 // función que genera los tres vectores del formato CSR val, row_ptr, cold_ind para matrices cuadradas
-void esparcifica(const std::vector<std::vector<int>> & M) //M vector de vectores
+void esparcifica(const std::vector<std::vector<double>> & M, vec& val, vec& row_ptr, vec& col_ind ) //M vector de vectores
 {
    int m = M.size(); //numero de filas
    int n = M[0].size(), i, j; //n = numero de columnas
-   std::vector<int> val;
-   std::vector<int> row_ptr = { 0 }; // row_ptr matrís de n+1 filas
-   std::vector<int> col_ind;
+//   std::vector<double> val;
+//   std::vector<double> row_ptr = { 0 }; // row_ptr matríz de n+1 filas
+//   std::vector<double> col_ind;
    int NNZ = 0;
-
 
    for (i = 0; i < m; i++) {
        for (j = 0; j < n; j++) {
            if (M[i][j] != 0) {
                val.push_back(M[i][j]); //agrega o incerta elementos al final de un contenedor dinámico en el vector val
                col_ind.push_back(j); //j inserta j en el vector col_ind
-
 
                // Count Number of Non Zeronumero de recuento distinto de cero
                // Elementos en la fila i
@@ -57,16 +55,15 @@ void esparcifica(const std::vector<std::vector<int>> & M) //M vector de vectores
        row_ptr.push_back(NNZ); //agrega elemento de nz al vector row_ptr
    }
 
-
-   printMatrix(M);
-   printVector(val, (char*)"val = ");
-   printVector(row_ptr, (char*)"row_ptr = ");
-   printVector(col_ind, (char*)"col_ind = ");
+//   printMatrix(M);
+//   printVector(val, (char*)"val = ");
+//   printVector(row_ptr, (char*)"row_ptr = ");
+//   printVector(col_ind, (char*)"col_ind = ");
 }
 
-void matrixVectorProd(int n, const vec& valA, const vec& IA, const vec& JA, const vec& B, vec& C){
+void matrixVectorProd(int n, const vec& valA, const vec& IA, const vec& JA, const vec& B, vec& prod){
     for (int i=0; i< n; i++){
-        int f = 0;
+        double f = 0;
         double iaa = IA[i];
         double iab = IA[i+1]-1;
         
@@ -75,7 +72,7 @@ void matrixVectorProd(int n, const vec& valA, const vec& IA, const vec& JA, cons
                 f = f + valA[k]*B[JA[k]];
             }
         }
-        C[i] = f;
+        prod.push_back(f);
         
     }
 }
