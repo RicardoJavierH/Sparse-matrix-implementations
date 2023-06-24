@@ -1,10 +1,10 @@
-#include <algorithm>
+
 #include <iostream>
 #include <vector>
 #include "libreria.h"
 
-//  función para poder imprimir para matrix rectangular
-void printMatrix(const std::vector<std::vector<double>> & M)
+//  función para imprimir matrix rectangular
+void printMatrix(const mat& M)
 {
    int m = M.size();
    int n = M[0].size();
@@ -17,7 +17,7 @@ void printMatrix(const std::vector<std::vector<double>> & M)
 
 
 // para imprimir los vectores val, row_ptr, col_ind.
-void printVector(const std::vector<double> & V, char* msg)
+void printVector(const vec & V, char* msg)
 //define una función llamada printVector que toma un vector de enteros y un mensaje como parámetros,
 // e imprime el vector junto con el mensaje, sin realizar ninguna modificación en el vector original.
 {
@@ -32,7 +32,7 @@ void printVector(const std::vector<double> & V, char* msg)
 
 
 // función que genera los tres vectores del formato CSR val, row_ptr, cold_ind para matrices cuadradas
-void esparcifica(const std::vector<std::vector<double>> & M, vec& val, vec& row_ptr, vec& col_ind ) //M vector de vectores
+void esparcifica(const mat & M, vec& val, vec& row_ptr, vec& col_ind ) //M vector de vectores
 {
    int m = M.size(); //numero de filas
    int n = M[0].size(), i, j; //n = numero de columnas

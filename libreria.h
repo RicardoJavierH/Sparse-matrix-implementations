@@ -1,14 +1,15 @@
 #ifndef LIBRERIA_H
 #define LIBRERIA_H
 
+#include <algorithm>
 #include <vector>
 typedef std::vector<double> vec;
+typedef std::vector<std::vector<double>> mat;
+void printMatrix(const mat& M);
 
-void printMatrix(const std::vector<std::vector<double>> & M);
+void printVector(const vec & V, char* msg);
 
-void printVector(const std::vector<double> & V, char* msg);
-
-void esparcifica(const std::vector<std::vector<double>> & M, vec& val, vec& row_ptr, vec& col_ind );
+void esparcifica(const mat& M, vec& val, vec& row_ptr, vec& col_ind );
 
 void matrixVectorProd(int n, const vec& valA, const vec& IA, const vec& JA, const vec& B, vec& prod);
 
