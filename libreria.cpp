@@ -3,7 +3,7 @@
 #include <vector>
 #include "libreria.h"
 
-//  función para imprimir matrix rectangular
+//  Print full matrix
 void printMatrix(const Mat& M)
 {
    int m = M.size();
