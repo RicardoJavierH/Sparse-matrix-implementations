@@ -15,25 +15,25 @@ int main()
     };
 
     int nrows = 5;
-    vec B = {1.,1.,1.,1.,1.};
-    vec valA,JA;
-    vec IA = {0};
+    Vec B = {1., 1., 1., 1., 1.};
+    Vec valA,JA;
+    Vec IA = {0};
     esparcifica(M,valA,IA,JA);
     printMatrix(M);
     printVector(valA, (char*)"valA = ");
     printVector(IA, (char*)"IA = ");
     printVector(JA, (char*)"JA = ");
 
-    vec AB;
+    Vec AB;
     matrixVectorProd(nrows, valA, IA, JA, B, AB);
     printVector(AB, (char*)"AB = ");
 
     //******* Using class data structure ********
     std::cout << "Implementacion con clases" << std::endl;
-    sparseCSR sparseA(M);
-    sparseA.printValA((char*)"valA=");
-    sparseA.printIA((char*)"IA=");
-    sparseA.printJA((char*)"JA=");
+    SparseCSR sparseA(M);
+    sparseA.PrintValA((char*)"valA=");
+    sparseA.PrintIA((char*)"IA=");
+    sparseA.PrintJA((char*)"JA=");
 
     return 0;
 }

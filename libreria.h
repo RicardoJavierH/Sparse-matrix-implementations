@@ -3,15 +3,15 @@
 
 #include <algorithm>
 #include <vector>
-typedef std::vector<double> vec;
-typedef std::vector<std::vector<double>> mat;
-void printMatrix(const mat& M);
+typedef std::vector<double> Vec;
+typedef std::vector<std::vector<double>> Mat;
+void printMatrix(const Mat& M);
 
-void printVector(const vec & V, char* msg);
+void printVector(const Vec & V, char* msg);
 
-void esparcifica(const mat& M, vec& val, vec& row_ptr, vec& col_ind );
+void esparcifica(const Mat& M, Vec& val, Vec& row_ptr, Vec& col_ind );
 
-void matrixVectorProd(int n, const vec& valA, const vec& IA, const vec& JA, const vec& B, vec& prod);
+void matrixVectorProd(int n, const Vec& valA, const Vec& IA, const Vec& JA, const Vec& B, Vec& prod);
 
 
 

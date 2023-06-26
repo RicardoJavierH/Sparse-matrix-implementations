@@ -4,7 +4,7 @@
 #include "libreria.h"
 
 //  función para imprimir matrix rectangular
-void printMatrix(const mat& M)
+void printMatrix(const Mat& M)
 {
    int m = M.size();
    int n = M[0].size();
@@ -17,7 +17,7 @@ void printMatrix(const mat& M)
 
 
 // para imprimir los vectores val, row_ptr, col_ind.
-void printVector(const vec & V, char* msg)
+void printVector(const Vec & V, char* msg)
 //define una función llamada printVector que toma un vector de enteros y un mensaje como parámetros,
 // e imprime el vector junto con el mensaje, sin realizar ninguna modificación en el vector original.
 {
@@ -32,7 +32,7 @@ void printVector(const vec & V, char* msg)
 
 
 // función que genera los tres vectores del formato CSR val, row_ptr, cold_ind para matrices cuadradas
-void esparcifica(const mat & M, vec& val, vec& row_ptr, vec& col_ind ) //M vector de vectores
+void esparcifica(const Mat & M, Vec& val, Vec& row_ptr, Vec& col_ind ) //M vector de vectores
 {
    int m = M.size(); //numero de filas
    int n = M[0].size(), i, j; //n = numero de columnas
@@ -61,7 +61,7 @@ void esparcifica(const mat & M, vec& val, vec& row_ptr, vec& col_ind ) //M vecto
 //   printVector(col_ind, (char*)"col_ind = ");
 }
 
-void matrixVectorProd(int n, const vec& valA, const vec& IA, const vec& JA, const vec& B, vec& prod){
+void matrixVectorProd(int n, const Vec& valA, const Vec& IA, const Vec& JA, const Vec& B, Vec& prod){
     for (int i=0; i< n; i++){
         double f = 0;
         double iaa = IA[i];

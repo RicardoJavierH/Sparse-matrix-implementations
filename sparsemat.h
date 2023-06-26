@@ -6,19 +6,25 @@
 #include "libreria.h"
 #include <iostream>
 //#include <vector>
-class sparseCSR {
+class SparseCSR {
     public:
-    sparseCSR(const mat &fullMat);
-    void printValA(char* msg);
-    void printIA(char* msg);
-    void printJA(char* msg);
+    SparseCSR(const Mat &fullMat);
+    void PrintValA(char* msg);
+    void PrintIA(char* msg);
+    void PrintJA(char* msg);
+    int NCols();
+    int NRows();
 
-    private:
-
-
-    vec valA;
-    vec IA;
-    vec JA;
+private:
+    int ncols;
+    int nrows = IA.size()-1;
+    Vec valA;
+    Vec IA;
+    Vec JA;
 };
+
+void vecMatProduct(const Vec vect, const SparseCSR mat );
+
+
 
 #endif //SPARSEMATRIX_SPARSEMAT_H
