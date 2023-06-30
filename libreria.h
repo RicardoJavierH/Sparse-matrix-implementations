@@ -16,8 +16,4 @@ void matrixVectorProd(int n, const Vec& valA, const Vec& IA, const Vec& JA, cons
 
 
 
-
-
-
-
 #endif

@@ -55,8 +55,39 @@ int SparseCSR::NRows(){
     return this->nrows;
 }
 
+void SparseCSR::GetIA(Vec* ptrIA){
+    ptrIA = &IA;
+}
+
+void SparseCSR::GetJA(Vec* ptrIA){
+    ptrIA = &JA;
+}
+
+void SparseCSR::GetvalA(Vec* ptrvalA){
+    ptrvalA = &valA;
+}
 
 void vecMatProduct(const Vec& vect, SparseCSR& mat, Vec& C ){
- int n = mat.NCols();
- int m = mat.NRows();
+    int n = mat.NCols();
+    int m = mat.NRows();
+    Vec* ptria;
+    mat.GetIA(ptria);
+    Vec* ptrja;
+    mat.GetJA(ptrja);
+    Vec* ptrvala;
+    mat.GetJA(ptrvala);
+    
+    for(int irow=0; irow<m; irow++){
+        for(int ii=0; ii<n; ii++){
+            int IAA = (*ptria)[irow];
+            int IAB = (*ptria)[irow+1]-1;
+            
+            if(IAB >= IAA){
+                for(int k=IAA; k<IAB; k++){
+                    int j = (*ptrja)[k];
+                    C[j] = C[irow]+(*ptrvala)[k]*vect[irow];
+                }
+            }
+        }
+    }
 }

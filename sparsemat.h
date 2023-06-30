@@ -14,6 +14,9 @@ class SparseCSR {
     void PrintJA(char* msg);
     int NCols();
     int NRows();
+    void GetIA(Vec*);
+    void GetJA(Vec*);
+    void GetvalA(Vec*);
 
 private:
     int ncols;
@@ -23,8 +26,7 @@ private:
     Vec JA;
 };
 
-void vecMatProduct(const Vec vect, const SparseCSR mat );
-
+void vecMatProduct(const Vec& vect, SparseCSR& mat, Vec& C );
 
 
 #endif //SPARSEMATRIX_SPARSEMAT_H
