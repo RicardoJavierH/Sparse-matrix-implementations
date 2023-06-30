@@ -31,6 +31,7 @@ int main()
     //******* Using class data structure ********
     std::cout << "Implementacion con clases" << std::endl;
     SparseCSR sparseA(M);
+    SparseCSR sparseB(M);
     sparseA.PrintValA((char*)"valA=");
     sparseA.PrintIA((char*)"IA=");
     sparseA.PrintJA((char*)"JA=");
