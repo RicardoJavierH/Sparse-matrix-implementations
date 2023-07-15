@@ -29,6 +29,6 @@ private:
     int Nnz = 0; //number of non zeros
 };
 
-void vecMatProduct(const Vec& vect, SparseCSR& mat, Vec& C );
+void vectorMatProduct(const Vec& vect, SparseCSR& mat, Vec& C );
 
 #endif //SPARSEMATRIX_SPARSEMAT_H

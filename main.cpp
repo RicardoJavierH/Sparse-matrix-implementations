@@ -19,7 +19,7 @@ int main()
     
     int nrows = 5;
     Vec B = {1., 1., 1., 1., 1.};
-    Vec valA,JA;
+    Vec valA, JA;
     Vec IA = {0};
     esparcifica(M,valA,IA,JA);
     printMatrix(M);
@@ -32,15 +32,15 @@ int main()
     printVector(AB, (char*)"AB = ");
 
     //******* Sparse matrix using class data structure ********
-    std::cout << "Implementation with class structure" << std::endl;
+    std::cout << "*** Implementation with class structure ***" << std::endl;
     SparseCSR sparseA(M);
     SparseCSR sparseB(M);
     sparseA.PrintValA((char*)"valA=");
     sparseA.PrintIA((char*)"IA=");
     sparseA.PrintJA((char*)"JA=");
-    Vec prodVec(nrows);
-    vecMatProduct(B, sparseA, prodVec);
-    printVector(prodVec, (char*)"B*sparseA=\t");
+    Vec resultVec(nrows);
+    vectorMatProduct(B, sparseA, resultVec);
+    printVector(resultVec, (char*)"B*sparseA=\t");
     return 0;
 }
 
