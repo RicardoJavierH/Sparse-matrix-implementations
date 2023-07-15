@@ -1,3 +1,6 @@
+//
+// Created by Ricardo on 24/06/2023.
+//
 
 #include "libreria.h"
 #include "sparsemat.h"
@@ -29,15 +32,15 @@ int main()
     printVector(AB, (char*)"AB = ");
 
     //******* Sparse matrix using class data structure ********
-    std::cout << "Implementacion con clases" << std::endl;
+    std::cout << "Implementation with class structure" << std::endl;
     SparseCSR sparseA(M);
     SparseCSR sparseB(M);
     sparseA.PrintValA((char*)"valA=");
     sparseA.PrintIA((char*)"IA=");
     sparseA.PrintJA((char*)"JA=");
-    Vec prod(nrows);
-    vecMatProduct(B, sparseA, prod);
-    printVector(prod, (char*)"B*sparseA=\t");
+    Vec prodVec(nrows);
+    vecMatProduct(B, sparseA, prodVec);
+    printVector(prodVec, (char*)"B*sparseA=\t");
     return 0;
 }
 

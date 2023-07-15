@@ -1,5 +1,7 @@
 //
 // Created by Ricardo on 24/06/2023.
+//
+
 #ifndef SPARSEMATRIX_SPARSEMAT_H
 #define SPARSEMATRIX_SPARSEMAT_H
 
@@ -14,19 +16,19 @@ class SparseCSR {
     void PrintJA(char* msg);
     int NCols();
     int NRows();
-    void GetIA(Vec*);
-    void GetJA(Vec*);
-    void GetvalA(Vec*);
+    Vec* GetIA();
+    Vec* GetJA();
+    Vec* GetvalA();
 
 private:
+    Vec valA;
+    Vec IA = {0};
+    Vec JA;
     int ncols;
     int nrows = IA.size()-1;
-    Vec valA;
-    Vec IA;
-    Vec JA;
+    int Nnz = 0; //number of non zeros
 };
 
 void vecMatProduct(const Vec& vect, SparseCSR& mat, Vec& C );
-
 
 #endif //SPARSEMATRIX_SPARSEMAT_H

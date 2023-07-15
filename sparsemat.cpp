@@ -4,24 +4,22 @@
 
 #include "sparsemat.h"
 SparseCSR::SparseCSR(const Mat& fullMat) {
-    int m = fullMat.size(); //número de filas
+    nrows = fullMat.size(); //number of rows
     ncols = fullMat[0].size();
-    int i, j; //número de columnas
-    int NNZ = 0;
+    int i, j; //number of cols
+    int nnz = 0;
 
-    for (i = 0; i < m; i++) {
+    for (i = 0; i < nrows; i++) {
         for (j = 0; j < ncols; j++) {
             if (fullMat[i][j] != 0) {
-                valA.push_back(fullMat[i][j]); //agrega o incerta elementos al final de un contenedor dinámico en el vector val
-                JA.push_back(j); //j inserta j en el vector col_ind
-
-                // Count Number of Non Zeronumero de recuento distinto de cero
-                // Elementos en la fila i
-                NNZ++; // NNZ=CONT
+                valA.push_back(fullMat[i][j]); //agrega o incerta elementos al final del contenedor dinámico valA
+                JA.push_back(j); //inserta j en el vector JA
+                nnz++;
             }
         }
-        IA.push_back(NNZ); //agrega elemento de nz al vector row_ptr
+        IA.push_back(nnz);
     }
+    Nnz = nnz;
 }
 
 void SparseCSR::PrintValA(char* msg){
@@ -47,6 +45,7 @@ void SparseCSR::PrintJA(char* msg){
     });
     std::cout << "]" << std::endl;
 }
+
 int SparseCSR::NCols(){
     return this->ncols;
 }
@@ -55,29 +54,26 @@ int SparseCSR::NRows(){
     return this->nrows;
 }
 
-void SparseCSR::GetIA(Vec* ptrIA){
-    ptrIA = &IA;
+Vec* SparseCSR::GetIA(){
+    return &IA;
 }
 
-void SparseCSR::GetJA(Vec* ptrIA){
-    ptrIA = &JA;
+Vec* SparseCSR::GetJA(){
+    return &JA;
 }
 
-void SparseCSR::GetvalA(Vec* ptrvalA){
-    ptrvalA = &valA;
+Vec* SparseCSR::GetvalA(){
+    return &valA;
 }
 
 void vecMatProduct(const Vec& vect, SparseCSR& mat, Vec& C ){
     int n = mat.NCols();
     int m = mat.NRows();
-    Vec* ptria;
-    mat.GetIA(ptria);
-    Vec* ptrja;
-    mat.GetJA(ptrja);
-    Vec* ptrvala;
-    mat.GetJA(ptrvala);
-    
-    for(int irow=0; irow<m; irow++){
+    Vec* ptria = mat.GetIA();
+    Vec* ptrja = mat.GetJA();
+    Vec* ptrvala = mat.GetJA();
+
+     for(int irow=0; irow<m; irow++){
         for(int ii=0; ii<n; ii++){
             int IAA = (*ptria)[irow];
             int IAB = (*ptria)[irow+1]-1;
