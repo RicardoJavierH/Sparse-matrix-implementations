@@ -2,6 +2,8 @@
 // Created by Ricardo on 24/06/2023.
 //
 
+// este linea fue modificada
+
 #include "sparsemat.h"
 SparseCSR::SparseCSR(const Mat& fullMat) {
     nrows = fullMat.size(); //number of rows
