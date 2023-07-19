@@ -8,6 +8,7 @@
 #include "libreria.h"
 #include <iostream>
 //#include <vector>
+
 class SparseCSR {
     public:
     SparseCSR(const Mat &fullMat);

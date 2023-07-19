@@ -3,6 +3,7 @@
 //
 
 #include "sparsemat.h"
+
 SparseCSR::SparseCSR(const Mat& fullMat) {
     nrows = fullMat.size(); //number of rows
     ncols = fullMat[0].size();
@@ -66,7 +67,7 @@ Vec* SparseCSR::GetvalA(){
     return &valA;
 }
 
-void vecMatProduct(const Vec& vect, SparseCSR& mat, Vec& C ){
+void vectorMatProduct(const Vec& vect, SparseCSR& mat, Vec& C ){
     int n = mat.NCols();
     int m = mat.NRows();
     Vec* ptria = mat.GetIA();
