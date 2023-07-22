@@ -4,11 +4,11 @@
 
 #include "libreria.h"
 #include "sparsemat.h"
+#include "sparsevec.h"
 #include <vector>
 #include <iostream>
 
-int main()
-{
+int main(){
     Mat M = {
            { 1., 0., 2., 0., 0. },
            { 0., 3., 0., 0., 0. },
@@ -16,7 +16,9 @@ int main()
            { 6., 0., 0., 0., 0. },
            { 0., 7., 0., 8., 0. },
     };
-    
+
+    Vec B2 = {0., 0., 5., -1., 0.};
+
     int nrows = 5;
     Vec B = {1., 1., 1., 1., 1.};
     Vec valA, JA;
@@ -31,10 +33,17 @@ int main()
     matrixVectorProd(nrows, valA, IA, JA, B, AB);
     printVector(AB, (char*)"AB = ");
 
+    //******* Sparse vector using class data structure ********
+    std::cout << "*** Sparse vector Implementation with class structure ***" << std::endl;
+
+    VecSparse spB(B2);
+    spB.PrintJA((char*)"JA=");
+    spB.PrintValA((char*)"ValA=");
+
     //******* Sparse matrix using class data structure ********
-    std::cout << "*** Implementation with class structure ***" << std::endl;
-    SparseCSR sparseA(M);
-    SparseCSR sparseB(M);
+    std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
+    MatSparseCSR sparseA(M);
+    MatSparseCSR sparseB(M);
     sparseA.PrintValA((char*)"valA=");
     sparseA.PrintIA((char*)"IA=");
     sparseA.PrintJA((char*)"JA=");

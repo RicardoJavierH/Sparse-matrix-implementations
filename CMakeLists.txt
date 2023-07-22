@@ -12,7 +12,7 @@ set(SOURCES
 # Agrega el archivo.h al proyecto
 set(HEADERS
     libreria.h
-        sparsemat.h)
+        sparsemat.h sparsevec.h)
 
 # Agrega el archivo main.cpp al proyecto
-add_executable(SparseMatrix main.cpp ${SOURCES} ${HEADERS})
+add_executable(SparseMatrix main.cpp ${SOURCES} ${HEADERS} sparsevec.cpp)

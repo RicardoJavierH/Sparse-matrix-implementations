@@ -9,9 +9,9 @@
 #include <iostream>
 //#include <vector>
 
-class SparseCSR {
+class MatSparseCSR {
     public:
-    SparseCSR(const Mat &fullMat);
+    MatSparseCSR(const Mat &fullMat);
     void PrintValA(char* msg);
     void PrintIA(char* msg);
     void PrintJA(char* msg);
@@ -30,6 +30,7 @@ private:
     int Nnz = 0; //number of non zeros
 };
 
-void vectorMatProduct(const Vec& vect, SparseCSR& mat, Vec& C );
+
+void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C );
 
 #endif //SPARSEMATRIX_SPARSEMAT_H

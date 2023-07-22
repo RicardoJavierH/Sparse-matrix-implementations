@@ -4,7 +4,7 @@
 
 #include "sparsemat.h"
 
-SparseCSR::SparseCSR(const Mat& fullMat) {
+MatSparseCSR::MatSparseCSR(const Mat& fullMat) {
     nrows = fullMat.size(); //number of rows
     ncols = fullMat[0].size();
     int i, j; //number of cols
@@ -23,7 +23,7 @@ SparseCSR::SparseCSR(const Mat& fullMat) {
     Nnz = nnz;
 }
 
-void SparseCSR::PrintValA(char* msg){
+void MatSparseCSR::PrintValA(char* msg){
     std::cout << msg << "[ ";
     for_each(this->valA.begin(), this->valA.end(), [](int a) {
         std::cout << a << " ";
@@ -31,7 +31,7 @@ void SparseCSR::PrintValA(char* msg){
     std::cout << "]" << std::endl;
 }
 
-void SparseCSR::PrintIA(char* msg){
+void MatSparseCSR::PrintIA(char* msg){
     std::cout << msg << "[ ";
     for_each(this->IA.begin(), this->IA.end(), [](int a) {
         std::cout << a << " ";
@@ -39,7 +39,7 @@ void SparseCSR::PrintIA(char* msg){
     std::cout << "]" << std::endl;
 }
 
-void SparseCSR::PrintJA(char* msg){
+void MatSparseCSR::PrintJA(char* msg){
     std::cout << msg << "[ ";
     for_each(this->JA.begin(), this->JA.end(), [](int a) {
         std::cout << a << " ";
@@ -47,27 +47,27 @@ void SparseCSR::PrintJA(char* msg){
     std::cout << "]" << std::endl;
 }
 
-int SparseCSR::NCols(){
+int MatSparseCSR::NCols(){
     return this->ncols;
 }
 
-int SparseCSR::NRows(){
+int MatSparseCSR::NRows(){
     return this->nrows;
 }
 
-Vec* SparseCSR::GetIA(){
+Vec* MatSparseCSR::GetIA(){
     return &IA;
 }
 
-Vec* SparseCSR::GetJA(){
+Vec* MatSparseCSR::GetJA(){
     return &JA;
 }
 
-Vec* SparseCSR::GetvalA(){
+Vec* MatSparseCSR::GetvalA(){
     return &valA;
 }
 
-void vectorMatProduct(const Vec& vect, SparseCSR& mat, Vec& C ){
+void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C ){
     int n = mat.NCols();
     int m = mat.NRows();
     Vec* ptria = mat.GetIA();
