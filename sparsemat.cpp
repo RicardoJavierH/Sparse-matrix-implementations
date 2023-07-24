@@ -4,7 +4,7 @@
 
 #include "sparsemat.h"
 
-MatSparseCSR::MatSparseCSR(const Mat& fullMat) {
+MatSparseCSR::MatSparseCSR(const realMat& fullMat) {
     nrows = fullMat.size(); //number of rows
     ncols = fullMat[0].size();
     int i, j; //number of cols
@@ -55,18 +55,18 @@ int MatSparseCSR::NRows(){
     return this->nrows;
 }
 
-Vec* MatSparseCSR::GetIA(){
+intVec* MatSparseCSR::GetIA(){
     return &IA;
 }
 
-Vec* MatSparseCSR::GetJA(){
+intVec* MatSparseCSR::GetJA(){
     return &JA;
 }
 
-Vec* MatSparseCSR::GetvalA(){
+realVec* MatSparseCSR::GetValA(){
     return &valA;
 }
-
+/*
 void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C ){
     int n = mat.NCols();
     int m = mat.NRows();
@@ -88,3 +88,4 @@ void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C ){
         }
     }
 }
+*/

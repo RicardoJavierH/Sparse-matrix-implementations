@@ -3,7 +3,7 @@
 //
 #include "sparsevec.h"
 
-VecSparse::VecSparse(const Vec& fullVec) {
+VecSparse::VecSparse(const realVec& fullVec) {
     size = fullVec.size();
     int i, j; //number of cols
     int nnz = 0;
@@ -41,10 +41,10 @@ int VecSparse::Size(){
     return this->size;
 }
 
-Vec* VecSparse::GetJA(){
+intVec* VecSparse::GetJA(){
     return &JA;
 }
 
-Vec* VecSparse::GetvalA(){
+realVec* VecSparse::GetvalA(){
     return &valA;
 }

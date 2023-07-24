@@ -9,7 +9,7 @@
 #include <iostream>
 
 int main(){
-    Mat M = {
+    realMat M = {
            { 1., 0., 2., 0., 0. },
            { 0., 3., 0., 0., 0. },
            { 0., 0., 4., 0., 5. },
@@ -17,28 +17,38 @@ int main(){
            { 0., 7., 0., 8., 0. },
     };
 
-    Vec B2 = {0., 0., 5., -1., 0.};
+    realVec B = {0., 0., 5., -1., 0., 0., 1.};
+    realVec B2 = {0., 1., 5., 0., 0., 1., 0.};
 
     int nrows = 5;
-    Vec B = {1., 1., 1., 1., 1.};
-    Vec valA, JA;
-    Vec IA = {0};
+    realVec B3 = {1., 1., 1., 1., 1.};
+    realVec valA;
+    intVec JA;
+    intVec IA = {0};
     esparcifica(M,valA,IA,JA);
     printMatrix(M);
-    printVector(valA, (char*)"valA = ");
-    printVector(IA, (char*)"IA = ");
-    printVector(JA, (char*)"JA = ");
+    //printVector(valA, (char*)"valA = ");
+    //printVector(IA, (char*)"IA = ");
+    //printVector(JA, (char*)"JA = ");
 
-    Vec AB;
-    matrixVectorProd(nrows, valA, IA, JA, B, AB);
-    printVector(AB, (char*)"AB = ");
+    realVec out;
+    //spMatrixVectorProd(nrows, valA, IA, JA, B3, out);
+    //printVector(out, (char*)"AB = ");
 
     //******* Sparse vector using class data structure ********
     std::cout << "*** Sparse vector Implementation with class structure ***" << std::endl;
 
-    VecSparse spB(B2);
-    spB.PrintJA((char*)"JA=");
-    spB.PrintValA((char*)"ValA=");
+    VecSparse spB(B);
+    spB.PrintJA((char*)"JB=");
+    spB.PrintValA((char*)"ValB=");
+
+    VecSparse spB2(B2);
+    spB2.PrintJA((char*)"JB2=");
+    spB2.PrintValA((char*)"ValB2=");
+
+    intVec JC;
+    JC = symbolicSpVecVecSum(spB,spB2);
+    //printVector(JC, (char*)"JC = ");
 
     //******* Sparse matrix using class data structure ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
@@ -47,9 +57,9 @@ int main(){
     sparseA.PrintValA((char*)"valA=");
     sparseA.PrintIA((char*)"IA=");
     sparseA.PrintJA((char*)"JA=");
-    Vec resultVec(nrows);
-    vectorMatProduct(B, sparseA, resultVec);
-    printVector(resultVec, (char*)"B*sparseA=\t");
+    realVec resultVec(nrows);
+    vectorSpMatProduct(B3, sparseA, resultVec);
+    //printVector(resultVec, (char*)"B*sparseA=\t");
     return 0;
 }
 

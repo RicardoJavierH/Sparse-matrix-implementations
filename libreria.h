@@ -7,17 +7,28 @@
 
 #include <algorithm>
 #include <vector>
+#include "sparsemat.h"
+#include "sparsevec.h"
 
-typedef std::vector<double> Vec;
-typedef std::vector<std::vector<double>> Mat;
+typedef std::vector<double> realVec;
+typedef std::vector<int> intVec;
+typedef std::vector<std::vector<double>> realMat;
+typedef std::vector<std::vector<int>> intMat;
 
-void printMatrix(const Mat& M);
+template<class T>
+void printMatrix(const std::vector<std::vector<T>>& M);
 
-void printVector(const Vec & V, char* msg);
+template<class T>
+void printVector(const std::vector<T> & V, char* msg);
 
-void esparcifica(const Mat& M, Vec& val, Vec& row_ptr, Vec& col_ind );
+void esparcifica(const realMat& M, realVec& val, intVec& row_ptr, intVec& col_ind );
 
-void matrixVectorProd(int n, const Vec& valA, const Vec& IA, const Vec& JA, const Vec& B, Vec& prod);
+void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intVec& JA, const realVec& B, realVec& prod);
 
+void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C );
+
+std::vector<int> symbolicSpVecVecSum(VecSparse& A, VecSparse& B);
+
+MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B);
 
 #endif

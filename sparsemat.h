@@ -5,32 +5,38 @@
 #ifndef SPARSEMATRIX_SPARSEMAT_H
 #define SPARSEMATRIX_SPARSEMAT_H
 
-#include "libreria.h"
+//#include "libreria.h"
 #include <iostream>
-//#include <vector>
+#include <vector>
+#include <algorithm>
+
+typedef std::vector<double> realVec;
+typedef std::vector<int> intVec;
+typedef std::vector<std::vector<double>> realMat;
+typedef std::vector<std::vector<int>> intMat;
 
 class MatSparseCSR {
     public:
-    MatSparseCSR(const Mat &fullMat);
+    MatSparseCSR(const realMat &fullMat);
     void PrintValA(char* msg);
     void PrintIA(char* msg);
     void PrintJA(char* msg);
     int NCols();
     int NRows();
-    Vec* GetIA();
-    Vec* GetJA();
-    Vec* GetvalA();
+    intVec* GetIA();
+    intVec* GetJA();
+    realVec* GetValA();
 
 private:
-    Vec valA;
-    Vec IA = {0};
-    Vec JA;
+    realVec valA;
+    intVec IA = {0};
+    intVec JA;
     int ncols;
     int nrows = IA.size()-1;
     int Nnz = 0; //number of non zeros
 };
 
 
-void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C );
+//void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C );
 
 #endif //SPARSEMATRIX_SPARSEMAT_H
