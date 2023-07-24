@@ -19,6 +19,9 @@ void printMatrix(const std::vector<std::vector<T>>& M)
    }
 }
 
+template void printMatrix(const std::vector<std::vector<double>>& M);
+template void printMatrix(const std::vector<std::vector<int>>& M);
+
 
 template<class T>
 void printVector(const std::vector<T> & V, char* msg){
@@ -29,6 +32,8 @@ void printVector(const std::vector<T> & V, char* msg){
    std::cout << "]" << std::endl;
 }
 
+template void printVector(const std::vector<double> & V, char* msg);
+template void printVector(const std::vector<int> & V, char* msg);
 
 // función que genera los tres vectores del formato CSR val, row_ptr, cold_ind para matrices cuadradas
 void esparcifica(const realMat & M, realVec& val, intVec& row_ptr, intVec& col_ind ) //M vector de vectores

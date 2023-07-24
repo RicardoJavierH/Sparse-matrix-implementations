@@ -9,7 +9,7 @@
 #include <iostream>
 
 int main(){
-    realMat M = {
+    std::vector<std::vector<double>> M = {
            { 1., 0., 2., 0., 0. },
            { 0., 3., 0., 0., 0. },
            { 0., 0., 4., 0., 5. },
@@ -27,9 +27,9 @@ int main(){
     intVec IA = {0};
     esparcifica(M,valA,IA,JA);
     printMatrix(M);
-    //printVector(valA, (char*)"valA = ");
-    //printVector(IA, (char*)"IA = ");
-    //printVector(JA, (char*)"JA = ");
+    printVector(valA, (char*)"valA = ");
+    printVector(IA, (char*)"IA = ");
+    printVector(JA, (char*)"JA = ");
 
     realVec out;
     //spMatrixVectorProd(nrows, valA, IA, JA, B3, out);
@@ -48,7 +48,7 @@ int main(){
 
     intVec JC;
     JC = symbolicSpVecVecSum(spB,spB2);
-    //printVector(JC, (char*)"JC = ");
+    printVector(JC, (char*)"JC = ");
 
     //******* Sparse matrix using class data structure ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
@@ -59,7 +59,7 @@ int main(){
     sparseA.PrintJA((char*)"JA=");
     realVec resultVec(nrows);
     vectorSpMatProduct(B3, sparseA, resultVec);
-    //printVector(resultVec, (char*)"B*sparseA=\t");
+    printVector(resultVec, (char*)"B*sparseA=\t");
     return 0;
 }
 
