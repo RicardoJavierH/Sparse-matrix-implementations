@@ -16,10 +16,10 @@ typedef std::vector<std::vector<double>> realMat;
 typedef std::vector<std::vector<int>> intMat;
 
 template<class T>
-void printMatrix(const std::vector<std::vector<T>>& M);
+void printFullMatrix(const std::vector<std::vector<T>>& M);
 
 template<class T>
-void printVector(const std::vector<T> & V, char* msg);
+void printFullVector(const std::vector<T> & V, char* msg);
 
 void esparcifica(const realMat& M, realVec& val, intVec& row_ptr, intVec& col_ind );
 
@@ -27,7 +27,9 @@ void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intV
 
 void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C );
 
-std::vector<int> symbolicSpVecVecSum(VecSparse& A, VecSparse& B);
+void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out);
+void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out);
+
 
 MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B);
 

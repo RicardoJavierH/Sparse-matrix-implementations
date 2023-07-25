@@ -8,7 +8,7 @@
 
 //  Print full matrix
 template <class T>
-void printMatrix(const std::vector<std::vector<T>>& M)
+void printFullMatrix(const std::vector<std::vector<T>>& M)
 {
    int m = M.size();
    int n = M[0].size();
@@ -19,12 +19,11 @@ void printMatrix(const std::vector<std::vector<T>>& M)
    }
 }
 
-template void printMatrix(const std::vector<std::vector<double>>& M);
-template void printMatrix(const std::vector<std::vector<int>>& M);
-
+template void printFullMatrix(const std::vector<std::vector<double>>& M);
+template void printFullMatrix(const std::vector<std::vector<int>>& M);
 
 template<class T>
-void printVector(const std::vector<T> & V, char* msg){
+void printFullVector(const std::vector<T> & V, char* msg){
    std::cout << msg << "[ ";
    for_each(V.begin(), V.end(), [](int a) {
        std::cout << a << " ";
@@ -32,10 +31,10 @@ void printVector(const std::vector<T> & V, char* msg){
    std::cout << "]" << std::endl;
 }
 
-template void printVector(const std::vector<double> & V, char* msg);
-template void printVector(const std::vector<int> & V, char* msg);
+template void printFullVector(const std::vector<double> & V, char* msg);
+template void printFullVector(const std::vector<int> & V, char* msg);
 
-// función que genera los tres vectores del formato CSR val, row_ptr, cold_ind para matrices cuadradas
+// Genera los tres vectores del formato CSR val, row_ptr, cold_ind a partir de la matriz esparsa M en formato lleno
 void esparcifica(const realMat & M, realVec& val, intVec& row_ptr, intVec& col_ind ) //M vector de vectores
 {
    int m = M.size(); //numero de filas
@@ -58,11 +57,6 @@ void esparcifica(const realMat & M, realVec& val, intVec& row_ptr, intVec& col_i
        }
        row_ptr.push_back(NNZ); //agrega elemento de nz al vector row_ptr
    }
-
-//   printMatrix(M);
-//   printVector(val, (char*)"val = ");
-//   printVector(row_ptr, (char*)"row_ptr = ");
-//   printVector(col_ind, (char*)"col_ind = ");
 }
 
 void matrixVectorProd(int n, const realVec& valA, const intVec& IA, const intVec& JA, const realVec& B, realVec& prod){
@@ -103,7 +97,7 @@ void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C ) {
     }
 }
 
-intVec symbolicSpVecVecSum(VecSparse& A, VecSparse& B){
+void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out){
     const int nA = A.Size();
     std::vector<int> IX(nA,0); // Crea IX con tamaño nA y entradas nulas
 
@@ -111,22 +105,47 @@ intVec symbolicSpVecVecSum(VecSparse& A, VecSparse& B){
     const int nJB = B.GetJA()->size(); // Número de elementos de JA
     std::vector<int> M;
 
+    intVec JCaux;
     for(int i=0; i<nJA; i++){
         int j = (*A.GetJA())[i];
         IX[j] = 1;
-        M.push_back(j); // Inserta j en el vector de unión M
+        JCaux.push_back(j); // Inserta j en JCaux
     }
     for(int i=0; i<nJB; i++){
         int j = (*B.GetJA())[i];
         if(IX[j]==0){
             IX[j] = 1;
-            M.push_back(j); // Inserta j en el vector de unión M
+            JCaux.push_back(j); // Inserta j JCaux
         }
     }
-    return M;
-
+    out->SetJA(JCaux);
 }
 
+void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out) {
+    const int nA = A.Size();
+    realVec X(nA, 0); // Crea X con tamaño nA y entradas nulas
+
+    const int nJA = A.GetJA()->size(); // Número de elementos de JA
+    const int nJB = B.GetJA()->size(); // Número de elementos de JB
+
+    for (int i = 0; i < nJA; i++) {
+        int j = (*A.GetJA())[i];
+        X[j] = (*A.GetvalA())[i];
+    }
+
+    for (int i = 0; i < nJB; i++) {
+        int j = (*B.GetJA())[i];
+        X[j] += (*B.GetvalA())[i];
+    }
+
+    intVec& JC = *out->GetJA();
+    realVec ValC = *out->GetvalA();
+    for (int i=0; i < JC.size(); i++){
+        int j = JC[i];
+        ValC[i] = X[j];
+    }
+
+}
 
 MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B){
     int N = A.NRows();

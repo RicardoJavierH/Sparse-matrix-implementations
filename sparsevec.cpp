@@ -48,3 +48,10 @@ intVec* VecSparse::GetJA(){
 realVec* VecSparse::GetvalA(){
     return &valA;
 }
+
+void VecSparse::SetJA(intVec& input){
+    JA[0] = input[0];
+}
+void VecSparse::SetValA(realVec& input){
+    this->valA = input;
+}

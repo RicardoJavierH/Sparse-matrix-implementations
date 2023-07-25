@@ -21,6 +21,8 @@ public:
     int Size();
     intVec* GetJA();
     realVec* GetvalA();
+    void SetJA(intVec& input);
+    void SetValA(realVec& input);
 
 private:
     realVec valA;

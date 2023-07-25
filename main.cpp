@@ -26,10 +26,10 @@ int main(){
     intVec JA;
     intVec IA = {0};
     esparcifica(M,valA,IA,JA);
-    printMatrix(M);
-    printVector(valA, (char*)"valA = ");
-    printVector(IA, (char*)"IA = ");
-    printVector(JA, (char*)"JA = ");
+    printFullMatrix(M);
+    printFullVector(valA, (char*)"valA = ");
+    printFullVector(IA, (char*)"IA = ");
+    printFullVector(JA, (char*)"JA = ");
 
     realVec out;
     //spMatrixVectorProd(nrows, valA, IA, JA, B3, out);
@@ -46,9 +46,11 @@ int main(){
     spB2.PrintJA((char*)"JB2=");
     spB2.PrintValA((char*)"ValB2=");
 
-    intVec JC;
-    JC = symbolicSpVecVecSum(spB,spB2);
-    printVector(JC, (char*)"JC = ");
+    VecSparse* spC;
+    symbolicSpVecVecSum(spB,spB2,spC);
+    NumericalSpVecVecSum(spB,spB2,spC);
+    spC->PrintJA((char*)"JspC");
+    spC->PrintValA((char*)"JspC");
 
     //******* Sparse matrix using class data structure ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
@@ -59,7 +61,7 @@ int main(){
     sparseA.PrintJA((char*)"JA=");
     realVec resultVec(nrows);
     vectorSpMatProduct(B3, sparseA, resultVec);
-    printVector(resultVec, (char*)"B*sparseA=\t");
+    printFullVector(resultVec, (char*)"B*sparseA=\t");
     return 0;
 }
 
