@@ -97,7 +97,7 @@ void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C ) {
     }
 }
 
-void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out){
+void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out){
     const int nA = A.Size();
     std::vector<int> IX(nA,0); // Crea IX con tamaño nA y entradas nulas
 
@@ -118,7 +118,7 @@ void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out){
             JCaux.push_back(j); // Inserta j JCaux
         }
     }
-    out->SetJA(JCaux);
+    out.SetJA(JCaux);
 }
 
 void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out) {

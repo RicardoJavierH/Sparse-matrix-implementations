@@ -46,11 +46,11 @@ int main(){
     spB2.PrintJA((char*)"JB2=");
     spB2.PrintValA((char*)"ValB2=");
 
-    VecSparse* spC;
+    VecSparse spC;
     symbolicSpVecVecSum(spB,spB2,spC);
-    NumericalSpVecVecSum(spB,spB2,spC);
-    spC->PrintJA((char*)"JspC");
-    spC->PrintValA((char*)"JspC");
+    //NumericalSpVecVecSum(spB,spB2,spC);
+    spC.PrintJA((char*)"JspC");
+    //spC->PrintValA((char*)"JspC");
 
     //******* Sparse matrix using class data structure ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;

@@ -16,18 +16,19 @@ typedef std::vector<int> intVec;
 class VecSparse {
 public:
     VecSparse(const realVec &fullVec);
+    VecSparse();
     void PrintValA(char* msg);
     void PrintJA(char* msg);
     int Size();
     intVec* GetJA();
     realVec* GetvalA();
-    void SetJA(intVec& input);
+    void SetJA(const intVec& input);
     void SetValA(realVec& input);
 
 private:
-    realVec valA;
-    intVec JA;
-    int size;
+    realVec valA = {0.};
+    intVec JA = {0};
+    int size = 0;
     int Nnz = 0; //number of non zeros
 };
 

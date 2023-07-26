@@ -20,6 +20,11 @@ VecSparse::VecSparse(const realVec& fullVec) {
 
 }
 
+VecSparse::VecSparse() {
+    
+}
+
+
 void VecSparse::PrintValA(char* msg){
     std::cout << msg << "[ ";
     for_each(this->valA.begin(), this->valA.end(), [](int a) {
@@ -49,8 +54,8 @@ realVec* VecSparse::GetvalA(){
     return &valA;
 }
 
-void VecSparse::SetJA(intVec& input){
-    JA[0] = input[0];
+void VecSparse::SetJA(const intVec& input){
+    JA = input;
 }
 void VecSparse::SetValA(realVec& input){
     this->valA = input;
