@@ -28,7 +28,7 @@ void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intV
 void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C );
 
 void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out);
-void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out);
+void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out);
 
 
 MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B);

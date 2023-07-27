@@ -26,8 +26,8 @@ public:
     void SetValA(realVec& input);
 
 private:
-    realVec valA = {0.};
-    intVec JA = {0};
+    realVec valA;
+    intVec JA;
     int size = 0;
     int Nnz = 0; //number of non zeros
 };

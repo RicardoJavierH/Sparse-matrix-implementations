@@ -121,7 +121,7 @@ void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out){
     out.SetJA(JCaux);
 }
 
-void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out) {
+void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out) {
     const int nA = A.Size();
     realVec X(nA, 0); // Crea X con tamaño nA y entradas nulas
 
@@ -138,13 +138,13 @@ void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse* out) {
         X[j] += (*B.GetvalA())[i];
     }
 
-    intVec& JC = *out->GetJA();
-    realVec ValC = *out->GetvalA();
+    intVec& JC = *out.GetJA();
+    realVec ValC;
     for (int i=0; i < JC.size(); i++){
         int j = JC[i];
-        ValC[i] = X[j];
+        ValC.push_back(X[j]);
     }
-
+    out.SetValA(ValC);
 }
 
 MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B){

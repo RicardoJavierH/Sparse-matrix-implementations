@@ -48,9 +48,9 @@ int main(){
 
     VecSparse spC;
     symbolicSpVecVecSum(spB,spB2,spC);
-    //NumericalSpVecVecSum(spB,spB2,spC);
-    spC.PrintJA((char*)"JspC");
-    //spC->PrintValA((char*)"JspC");
+    NumericalSpVecVecSum(spB,spB2,spC);
+    spC.PrintJA((char*)"JspC=");
+    spC.PrintValA((char*)"ValspC=");
 
     //******* Sparse matrix using class data structure ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
@@ -61,7 +61,7 @@ int main(){
     sparseA.PrintJA((char*)"JA=");
     realVec resultVec(nrows);
     vectorSpMatProduct(B3, sparseA, resultVec);
-    printFullVector(resultVec, (char*)"B*sparseA=\t");
+    printFullVector(resultVec, (char*)"B*sparseA=");
     return 0;
 }
 
