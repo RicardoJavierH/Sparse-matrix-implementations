@@ -34,32 +34,7 @@ void printFullVector(const std::vector<T> & V, char* msg){
 template void printFullVector(const std::vector<double> & V, char* msg);
 template void printFullVector(const std::vector<int> & V, char* msg);
 
-// Genera los tres vectores del formato CSR val, row_ptr, cold_ind a partir de la matriz esparsa M en formato lleno
-void esparcifica(const realMat & M, realVec& val, intVec& row_ptr, intVec& col_ind ) //M vector de vectores
-{
-   int m = M.size(); //numero de filas
-   int n = M[0].size(), i, j; //n = numero de columnas
-//   std::vector<double> val;
-//   std::vector<double> row_ptr = { 0 }; // row_ptr matríz de n+1 filas
-//   std::vector<double> col_ind;
-   int NNZ = 0;
-
-   for (i = 0; i < m; i++) {
-       for (j = 0; j < n; j++) {
-           if (M[i][j] != 0) {
-               val.push_back(M[i][j]); //agrega o incerta elementos al final de un contenedor dinámico en el vector val
-               col_ind.push_back(j); //j inserta j en el vector col_ind
-
-               // Count Number of Non Zeronumero de recuento distinto de cero
-               // Elementos en la fila i
-               NNZ++; // NNZ=CONT
-           }
-       }
-       row_ptr.push_back(NNZ); //agrega elemento de nz al vector row_ptr
-   }
-}
-
-void matrixVectorProd(int n, const realVec& valA, const intVec& IA, const intVec& JA, const realVec& B, realVec& prod){
+void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intVec& JA, const realVec& B, realVec& prod){
     for (int i=0; i< n; i++){
         double f = 0;
         double iaa = IA[i];
@@ -119,6 +94,8 @@ void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out){
         }
     }
     out.SetJA(JCaux);
+    out.SetSize(nA);
+    out.SetNnz(JCaux.size());
 }
 
 void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out) {
@@ -147,7 +124,7 @@ void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out) {
     out.SetValA(ValC);
 }
 
-MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B){
+void spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B,MatSparseCSR& Sum){
     int N = A.NRows();
     int M = B.NCols();
     int IP = 1;
@@ -156,11 +133,11 @@ MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B){
     intVec IC;
 
     for(int I=0; I<N; I++){
-        IC[0]=1;
+        IC.push_back(IP);
         int IAA = (*A.GetIA())[I];
         int IAB = (*A.GetIA())[I+1]-1;
 
-        if(IAB >= IAA) {
+        if(IAA <= IAB) {
             for (int JP = IAA; JP < IAB + 1; JP++) {
                 int J = (*A.GetJA())[JP];
                 JC[IP] = J;
@@ -168,7 +145,6 @@ MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B){
                 IX[J] = I;
             }
 
-            int IBA = (*B.GetIA())[I];
         }
 
         int IBA = (*B.GetIA())[I];
@@ -186,6 +162,7 @@ MatSparseCSR spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B){
     }
     IC[N+1] = IP;
 }
+
 
 
 

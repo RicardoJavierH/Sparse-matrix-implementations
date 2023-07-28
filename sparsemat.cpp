@@ -23,6 +23,10 @@ MatSparseCSR::MatSparseCSR(const realMat& fullMat) {
     Nnz = nnz;
 }
 
+MatSparseCSR::MatSparseCSR(){
+
+}
+
 void MatSparseCSR::PrintValA(char* msg){
     std::cout << msg << "[ ";
     for_each(this->valA.begin(), this->valA.end(), [](int a) {
@@ -66,6 +70,17 @@ intVec* MatSparseCSR::GetJA(){
 realVec* MatSparseCSR::GetValA(){
     return &valA;
 }
+
+void MatSparseCSR::SetIA(intVec& ia){
+    this->IA = ia;
+}
+void MatSparseCSR::SetJA(intVec& ja){
+    this->JA = ja;
+}
+void MatSparseCSR::SetValA(realVec vala){
+    this->valA = vala;
+}
+
 /*
 void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C ){
     int n = mat.NCols();

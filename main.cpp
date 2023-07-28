@@ -9,7 +9,7 @@
 #include <iostream>
 
 int main(){
-    std::vector<std::vector<double>> M = {
+    std::vector<std::vector<double>> M1 = {
            { 1., 0., 2., 0., 0. },
            { 0., 3., 0., 0., 0. },
            { 0., 0., 4., 0., 5. },
@@ -17,51 +17,57 @@ int main(){
            { 0., 7., 0., 8., 0. },
     };
 
-    realVec B = {0., 0., 5., -1., 0., 0., 1.};
-    realVec B2 = {0., 1., 5., 0., 0., 1., 0.};
+    std::vector<std::vector<double>> M2 = {
+            { 2., 0., 0., 1., 0. },
+            { 0., 3., 0., 0., 0. },
+            { 0., 0., 1., 1., 0. },
+            { 0., 0., 1., 0., 2. },
+            { 0., 1., 0., 0., 0. },
+    };
+
+    realVec v = {0., 0., 5., -1., 0., 0., 1.};
+    realVec v2 = {0., 1., 5., 0., 0., 1., 0.};
 
     int nrows = 5;
     realVec B3 = {1., 1., 1., 1., 1.};
     realVec valA;
     intVec JA;
     intVec IA = {0};
-    esparcifica(M,valA,IA,JA);
-    printFullMatrix(M);
-    printFullVector(valA, (char*)"valA = ");
-    printFullVector(IA, (char*)"IA = ");
-    printFullVector(JA, (char*)"JA = ");
 
-    realVec out;
-    //spMatrixVectorProd(nrows, valA, IA, JA, B3, out);
-    //printVector(out, (char*)"AB = ");
-
-    //******* Sparse vector using class data structure ********
+    //******* Operaciones con vectores dispersos ********
     std::cout << "*** Sparse vector Implementation with class structure ***" << std::endl;
 
-    VecSparse spB(B);
-    spB.PrintJA((char*)"JB=");
-    spB.PrintValA((char*)"ValB=");
+    VecSparse spV(v); // Crea el objeto spV (vector en formato esparso)
+    spV.PrintJA((char*)"JB=");
+    spV.PrintValA((char*)"ValB=");
 
-    VecSparse spB2(B2);
-    spB2.PrintJA((char*)"JB2=");
-    spB2.PrintValA((char*)"ValB2=");
+    VecSparse spV2(v2);
+    spV2.PrintJA((char*)"JB2=");
+    spV2.PrintValA((char*)"ValB2=");
 
-    VecSparse spC;
-    symbolicSpVecVecSum(spB,spB2,spC);
-    NumericalSpVecVecSum(spB,spB2,spC);
-    spC.PrintJA((char*)"JspC=");
-    spC.PrintValA((char*)"ValspC=");
+    VecSparse spSum;
+    symbolicSpVecVecSum(spV,spV2,spSum);
+    NumericalSpVecVecSum(spV,spV2,spSum);
+    spSum.PrintJA((char*)"JspSum=");
+    spSum.PrintValA((char*)"ValspSum=");
 
-    //******* Sparse matrix using class data structure ********
+    //******* Operaciones con matrices dispersas ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
-    MatSparseCSR sparseA(M);
-    MatSparseCSR sparseB(M);
-    sparseA.PrintValA((char*)"valA=");
-    sparseA.PrintIA((char*)"IA=");
-    sparseA.PrintJA((char*)"JA=");
+    MatSparseCSR spA(M1);
+    spA.PrintValA((char*)"valspA=");
+    spA.PrintIA((char*)"IspA=");
+    spA.PrintJA((char*)"JspA=");
     realVec resultVec(nrows);
-    vectorSpMatProduct(B3, sparseA, resultVec);
-    printFullVector(resultVec, (char*)"B*sparseA=");
+    vectorSpMatProduct(B3, spA, resultVec);
+    printFullVector(resultVec, (char*)"B3*spA=");
+
+    MatSparseCSR spB(M2);
+    spB.PrintValA((char*)"valspB=");
+    spB.PrintIA((char*)"IspB=");
+    spB.PrintJA((char*)"JspB=");
+
+    MatSparseCSR sum;
+    spMatMatSymbolicSum(spA,spB,sum);
     return 0;
 }
 

@@ -17,15 +17,23 @@ typedef std::vector<std::vector<int>> intMat;
 
 class MatSparseCSR {
     public:
-    MatSparseCSR(const realMat &fullMat);
+    MatSparseCSR(const realMat &fullMat); // constructor
+    MatSparseCSR(); // constructor
+
     void PrintValA(char* msg);
     void PrintIA(char* msg);
     void PrintJA(char* msg);
+
     int NCols();
     int NRows();
+
     intVec* GetIA();
     intVec* GetJA();
     realVec* GetValA();
+
+    void SetIA(intVec& ia);
+    void SetJA(intVec& ja);
+    void SetValA(realVec vala);
 
 private:
     realVec valA;

@@ -60,3 +60,11 @@ void VecSparse::SetJA(const intVec& input){
 void VecSparse::SetValA(realVec& input){
     this->valA = input;
 }
+
+void VecSparse::SetSize(int n){
+    size = n;
+}
+
+void VecSparse::SetNnz(int n){
+    Nnz = n;
+}

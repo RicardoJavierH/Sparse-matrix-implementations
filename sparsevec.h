@@ -13,19 +13,26 @@
 typedef std::vector<double> realVec;
 typedef std::vector<int> intVec;
 
+// Clase (plantilla) para construir objetos vector esparso
 class VecSparse {
 public:
-    VecSparse(const realVec &fullVec);
-    VecSparse();
-    void PrintValA(char* msg);
-    void PrintJA(char* msg);
-    int Size();
-    intVec* GetJA();
-    realVec* GetvalA();
-    void SetJA(const intVec& input);
-    void SetValA(realVec& input);
+    VecSparse(const realVec &fullVec); // constructor
+    VecSparse(); // constructor
 
-private:
+    void PrintValA(char* msg); // Método para imprimir valA
+    void PrintJA(char* msg); // Método para imprimir JA
+
+    int Size(); // Método para obtener el tamaño (del formato lleno) del vector esparso
+    intVec* GetJA(); // Método para obtener el vector JA
+    realVec* GetvalA(); // Método para obtener el vector valA
+
+    void SetJA(const intVec& input); // Define JA
+    void SetValA(realVec& input); // Define el valA
+
+    void SetSize(int n);
+    void SetNnz(int n);
+
+        private:
     realVec valA;
     intVec JA;
     int size = 0;
