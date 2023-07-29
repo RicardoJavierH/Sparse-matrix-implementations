@@ -335,4 +335,62 @@ void spMatMatNumericalProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod)
     prod.SetValA(valC);
 }
 
+void matTransposition(MatSparseCSR& A, MatSparseCSR& At){
+    int A_nrows = A.NRows();
+    int A_ncols = A.NCols();
+    intVec IA = *A.GetIA();
+    intVec JA = *A.GetJA();
+    realVec valA = *A.GetValA();
+    intVec IAT;
+    intVec JAT;
+    realVec valAT;
+    
+    At.SetNcols(A_nrows);
+    At.SetNrows(A_ncols);
+    
+    int MH = A_ncols+1;
+    int NH = A_nrows+1;
+    
+    IAT.resize(MH);
+    for (int I=1; I<MH; I++){
+        IAT[I] = 0;
+    }
+    
+    int IAB = IA[NH]-1;
+    
+    for (int I=0; I<IAB; I++){
+        int J = JA[I]+2;
+        if (J <= MH){
+            IAT[J] = IAT[J]+1;
+        }
+    }
+    
+    IAT[1] = 1;
+    IAT[2] = 1;
+    
+    if (A_ncols != 1){
+        for (int I=2; I<MH; I++){
+            IAT[I] = IAT[I] + IAT[I-1];
+        }
+    }
+    
+    for (int I=0; I<A_nrows; I++){
+        int IAA = IA[I];
+        int IAB = IA[I+1]-1;
+        
+        if (IAA <= IAB){
+            for (int JP=IAA; JP < IAB; JP++){
+                int J = JA[JP]+1;
+                int K = IAT[J];
+                JAT[K] = I;
+                valAT[K] = valA[JP];
+                IAT[J] = K+1;
+            }
+        }
+    }
+    
+    At.SetIA(IAT);
+    At.SetJA(JAT);
+    At.SetValA(valAT);
+}
 

@@ -57,6 +57,14 @@ int main(){
     spA.PrintValA((char*)"valspA=");
     spA.PrintIA((char*)"IspA=");
     spA.PrintJA((char*)"JspA=");
+    
+//    MatSparseCSR spAt;
+//    matTransposition(spA, spAt);
+//    spAt.PrintValA((char*)"spAt=");
+//    spAt.PrintIA((char*)"IspAt=");
+//    spAt.PrintJA((char*)"JspAt=");
+
+    
     int size = spA.NCols();
     realVec resultVec(size);
     vectorSpMatProduct(B3, spA, resultVec);

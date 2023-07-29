@@ -47,5 +47,6 @@ void spMatMatSymbolicProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod);
 // Producto numérico de matrices dispersas
 void spMatMatNumericalProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod);
 
+void matTransposition(MatSparseCSR& A, MatSparseCSR& At);
 
 #endif
