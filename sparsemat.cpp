@@ -81,26 +81,14 @@ void MatSparseCSR::SetValA(realVec vala){
     this->valA = vala;
 }
 
-/*
-void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C ){
-    int n = mat.NCols();
-    int m = mat.NRows();
-    Vec* ptria = mat.GetIA();
-    Vec* ptrja = mat.GetJA();
-    Vec* ptrvala = mat.GetJA();
-
-     for(int irow=0; irow<m; irow++){
-        for(int ii=0; ii<n; ii++){
-            int IAA = (*ptria)[irow];
-            int IAB = (*ptria)[irow+1]-1;
-            
-            if(IAB >= IAA){
-                for(int k=IAA; k<IAB; k++){
-                    int j = (*ptrja)[k];
-                    C[j] = C[irow]+(*ptrvala)[k]*vect[irow];
-                }
-            }
-        }
-    }
+void MatSparseCSR::SetNcols(int ncols){
+    this->ncols = ncols;
 }
-*/
+
+void MatSparseCSR::SetNrows(int nrows){
+    this->nrows = nrows;
+}
+
+void MatSparseCSR::SetNnz(int nnz){
+    this->Nnz = nnz;
+}

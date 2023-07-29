@@ -73,6 +73,13 @@ int main(){
     sum.PrintJA((char*)"Jsum=");
     spMatMatNumericalSum(spA,spB,sum);
     sum.PrintValA((char*)"valsum=");
+    
+    MatSparseCSR prod;
+    spMatMatSymbolicProd(spA,spB,prod);
+    prod.PrintIA((char*)"Iprod=");
+    prod.PrintJA((char*)"Jprod");
+    spMatMatNumericalProd(spA, spB, prod);
+    prod.PrintValA((char*)"valprod=");
     return 0;
 }
 

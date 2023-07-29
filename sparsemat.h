@@ -34,16 +34,18 @@ class MatSparseCSR {
     void SetIA(intVec& ia);
     void SetJA(intVec& ja);
     void SetValA(realVec vala);
+    void SetNcols(int ncols);
+    void SetNrows(int nrows);
+    void SetNnz(int nnz);
 
 private:
     realVec valA;
     intVec IA={0};
     intVec JA;
     int ncols;
-    int nrows = IA.size()-1;
+    int nrows = 0;
     int Nnz = 0; //number of non zeros
 };
 
-//void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C );
 
 #endif //SPARSEMATRIX_SPARSEMAT_H

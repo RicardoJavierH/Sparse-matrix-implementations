@@ -226,12 +226,113 @@ void spMatMatNumericalSum(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& Sum){
             
         }
         
-        
     }
     
     Sum.SetValA(valC);
     
 }
 
+void spMatMatSymbolicProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod){
+    if (A.NCols() != B.NRows()){
+        std::cerr << "Incorrect dimensions for Matrix product!! "<<std::endl;
+        exit(1);
+    }
+    
+    intVec& IA = *A.GetIA();
+    intVec& JA = *A.GetJA();
+    intVec& IB = *B.GetIA();
+    intVec& JB = *B.GetJA();
+    int NP = A.NRows();
+    int NQ = A.NCols();
+    int NR = B.NCols();
+
+    prod.SetNrows(NP);
+    prod.SetNcols(NR);
+    
+    intVec IC={0};
+    intVec JC;
+    intVec IX(NR); // Multiple switch
+
+    int IP = 0;
+    for (int I=0; I<NP; I++){
+        int IAA = IA[I];//Inicio de la fila I en JA y val A
+        int IAB = IA[I+1]-1;//Final de la fila I en JA y val A
+        
+        if (IAA <= IAB){
+            for (int JP=IAA; JP<IAB+1; JP++){
+                int J = JA[JP];
+                int IBA = IB[J];//Inicio de la fila I en JA y val A
+                int IBB = IB[J+1]-1;//Final de la fila I en JA y val A
+                if (IBA <= IBB){
+                    for (int KP=IBA; KP<IBB+1; KP++){
+                        int K = JB[KP];
+                        if (IX[K] != I+1){
+                            JC.push_back(K);
+                            IP++;
+                            IX[K]=I+1;
+                        }
+                    }
+                }
+
+            }
+        }
+        
+        IC.push_back(IP);
+        
+    }
+    IC[NP+1]=IP;
+    prod.SetIA(IC);
+    prod.SetJA(JC);
+}
+
+void spMatMatNumericalProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod){
+    intVec& IA = *A.GetIA();
+    intVec& JA = *A.GetJA();
+    realVec& valA = *A.GetValA();
+    intVec& IB = *B.GetIA();
+    intVec& JB = *B.GetJA();
+    realVec& valB = *B.GetValA();
+    intVec& IC = *prod.GetIA();
+    intVec& JC = *prod.GetJA();
+    realVec& valC = *prod.GetValA();
+    
+    int NP = A.NRows();
+    realVec X(prod.NCols());
+    
+    for (int I=0; I<NP; I++){
+        int ICA = IC[I];// Inicio de la fila I en JC y val C
+        int ICB = IC[I+1]-1;//Final de la fila I en JC y valC
+        
+        if (ICA <= ICB){
+            for (int J = ICA; J<ICB+1; J++){
+                X[JC[J]] = 0.;
+            }
+            
+            int IAA = IA[I];
+            int IAB = IA[I+1]-1;
+            
+            for (int JP=IAA; JP<IAB+1; JP++){
+                int J = JA[JP];
+                double A = valA[JP];
+                
+                int IBA = IB[J];
+                int IBB = IB[J+1]-1;
+                
+                if (IBA <= IBB){
+                    for (int KP=IBA; KP<IBB+1; KP++){
+                        int K = JB[KP];
+                        X[K] = X[K]+A*valB[KP];
+                    }
+                }
+            }
+        
+            for (int J=ICA; J<ICB+1; J++){
+                valC.push_back(X[JC[J]]);
+            }
+            
+        }
+    }
+    prod.SetValA(valC);
+}
 
 

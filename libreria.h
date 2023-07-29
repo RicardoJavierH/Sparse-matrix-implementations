@@ -35,10 +35,17 @@ void symbolicSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out);
 // Suma numérica de vectores dispersos
 void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out);
 
-// Producto simbólico de matrices dispersas
+// Suma simbólica de matrices dispersas
 void spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& Sum);
 
-// Producto numérico de matrices dispersas
+// Suma numérico de matrices dispersas
 void spMatMatNumericalSum(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& Sum);
+
+// Producto simbólico de matrices dispersas
+void spMatMatSymbolicProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod);
+
+// Producto numérico de matrices dispersas
+void spMatMatNumericalProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod);
+
 
 #endif
