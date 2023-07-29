@@ -51,21 +51,27 @@ void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intV
 }
 
 void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C ) {
-    int n = mat.NCols();
-    int m = mat.NRows();
+    int ncol = mat.NCols();
+    int nrow = mat.NRows();
+    int size = vect.size();
+    if (size != nrow){
+        std::cerr << "The dimensions aren't compatible!!" << std::endl;
+        exit(1);
+    }
+    
     intVec *ptria = mat.GetIA();
     intVec *ptrja = mat.GetJA();
     realVec *ptrvala = mat.GetValA();
 
-    for (int irow = 0; irow < m; irow++) {
-        for (int ii = 0; ii < n; ii++) {
-            int IAA = (*ptria)[irow];
-            int IAB = (*ptria)[irow + 1] - 1;
+    for (int i = 0; i < nrow; i++) {
+        for (int j = 0; j < ncol; j++) {
+            int IAA = (*ptria)[i];// Inicio de la fila i en JA y valA
+            int IAB = (*ptria)[i + 1] - 1; // fin de la fila i en JA y valA
 
             if (IAB >= IAA) {
                 for (int k = IAA; k < IAB; k++) {
-                    int j = (*ptrja)[k];
-                    C[j] = C[irow] + (*ptrvala)[k] * vect[irow];
+                    int J = (*ptrja)[k];
+                    C[J] = C[i] + (*ptrvala)[k] * vect[i];
                 }
             }
         }
@@ -125,46 +131,107 @@ void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out) {
 }
 
 void spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B,MatSparseCSR& Sum){
-    int N = A.NRows();
-    int M = B.NCols();
-    int IP = 1;
-    intVec IX(M,0); // Create IX with size M and all entries zero
+    int nrows = A.NRows();
+    int ncols = B.NCols();
+    intVec IX(ncols,0); // Create IX with size M and all entries zero
     intVec JC;
-    intVec IC;
+    intVec IC={0};
+    int IP=0;
+    
+    for(int I=0; I<nrows; I++){
+        int IAA = (*A.GetIA())[I]; //Inicio de la fila I en JA y valA
+        int IAB = (*A.GetIA())[I+1]-1; //final de la fila I en JA y valA
 
-    for(int I=0; I<N; I++){
-        IC.push_back(IP);
-        int IAA = (*A.GetIA())[I];
-        int IAB = (*A.GetIA())[I+1]-1;
-
+        //Inserta en JC los índices de las columnas no nulas de la fila I en A
+        // y en XI son marcadas con I+1 las posiciones no nulas
         if(IAA <= IAB) {
             for (int JP = IAA; JP < IAB + 1; JP++) {
                 int J = (*A.GetJA())[JP];
-                JC[IP] = J;
+                JC.push_back(J);
+                IX[J]=I+1;
                 IP++;
-                IX[J] = I;
             }
 
         }
 
-        int IBA = (*B.GetIA())[I];
-        int IBB = (*B.GetIA())[I+1]-1;
+        int IBA = (*B.GetIA())[I];//Inicio de la fila I en JB y valB
+        int IBB = (*B.GetIA())[I+1]-1;//Fin de la fila I en JB y valB
 
+        //Inserta en JC los índices de las columnas no nulas de la fila I en B
         if( IBA < IBB){
             for(int JP=IBA; JP<IBB+1; JP++){
                 int J = (*B.GetJA())[JP];
-                if(IX[J] != I){
-                    JC[IP] = J;
+                if(IX[J] != I+1){
+                    JC.push_back(J);
                     IP++;
                 }
             }
         }
+        
+        IC.push_back(IP);
+        
     }
-    IC[N+1] = IP;
+    
+    Sum.SetIA(IC);
+    Sum.SetJA(JC);
 }
 
+void spMatMatNumericalSum(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& Sum){
+    int nrows = A.NRows();
+    int ncols = B.NCols();
+    realVec X(ncols,0); // Create IX with size M and all entries zero
+    intVec& IC = *Sum.GetIA();
+    intVec& JC = *Sum.GetJA();
+    realVec valC(JC.size());
+    intVec& IA = *A.GetIA();
+    intVec& JA = *A.GetJA();
+    realVec& valA = *A.GetValA();
+    intVec& IB = *B.GetIA();
+    intVec& JB = *B.GetJA();
+    realVec& valB = *B.GetValA();
 
-
+    for(int I=0; I<nrows; I++){
+        int IH = I+1;
+        int ICA = IC[I];
+        int ICB = IC[I+1]-1;
+        
+        if (ICA <= ICB){
+            for (int IP=ICA; IP<ICB+1; IP++){
+                X[JC[IP]] = 0;
+            }
+            
+            int IAA = IA[I];
+            int IAB = IA[I+1]-1;
+            
+            if (IAA <= IAB){
+                for (int IP=IAA; IP<IAB+1; IP++){
+                    X[JA[IP]] = valA[IP];
+                }
+            }
+            
+            int IBA = IB[I];
+            int IBB = IB[I+1]-1;
+            
+            if (IBA <= IBB){
+                for (int IP=IBA; IP<IBB+1; IP++){
+                    int J = JB[IP];
+                    X[J] = X[J] + valB[IP];
+                }
+                
+                for (int IP=ICA; IP<ICB+1;IP++){
+                    valC[IP] = X[JC[IP]];
+                }
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    Sum.SetValA(valC);
+    
+}
 
 
 

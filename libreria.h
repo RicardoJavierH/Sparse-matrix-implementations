@@ -38,4 +38,7 @@ void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out);
 // Producto simbólico de matrices dispersas
 void spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& Sum);
 
+// Producto numérico de matrices dispersas
+void spMatMatNumericalSum(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& Sum);
+
 #endif

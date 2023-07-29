@@ -37,13 +37,12 @@ class MatSparseCSR {
 
 private:
     realVec valA;
-    intVec IA = {0};
+    intVec IA={0};
     intVec JA;
     int ncols;
     int nrows = IA.size()-1;
     int Nnz = 0; //number of non zeros
 };
-
 
 //void vectorMatProduct(const Vec& vect, MatSparseCSR& mat, Vec& C );
 

@@ -57,7 +57,8 @@ int main(){
     spA.PrintValA((char*)"valspA=");
     spA.PrintIA((char*)"IspA=");
     spA.PrintJA((char*)"JspA=");
-    realVec resultVec(nrows);
+    int size = spA.NCols();
+    realVec resultVec(size);
     vectorSpMatProduct(B3, spA, resultVec);
     printFullVector(resultVec, (char*)"B3*spA=");
 
@@ -68,6 +69,10 @@ int main(){
 
     MatSparseCSR sum;
     spMatMatSymbolicSum(spA,spB,sum);
+    sum.PrintIA((char*)"Isum=");
+    sum.PrintJA((char*)"Jsum=");
+    spMatMatNumericalSum(spA,spB,sum);
+    sum.PrintValA((char*)"valsum=");
     return 0;
 }
 
