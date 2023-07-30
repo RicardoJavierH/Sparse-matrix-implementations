@@ -15,7 +15,7 @@ typedef std::vector<int> intVec;
 typedef std::vector<std::vector<double>> realMat;
 typedef std::vector<std::vector<int>> intMat;
 
-class MatSparseCSR {
+class MatSparseCSR { // Clase (plantilla) para matrices dispersas en el formato CSR
     public:
     MatSparseCSR(const realMat &fullMat); // constructor
     MatSparseCSR(); // constructor
@@ -42,8 +42,8 @@ private:
     realVec valA;
     intVec IA={0};
     intVec JA;
-    int ncols;
-    int nrows = 0;
+    int ncols; // Número de columnas en el formato lleno
+    int nrows = 0; // Número de filas en el formato lleno
     int Nnz = 0; //number of non zeros
 };
 

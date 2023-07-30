@@ -13,7 +13,7 @@
 typedef std::vector<double> realVec;
 typedef std::vector<int> intVec;
 
-// Clase (plantilla) para construir objetos vector esparso
+// Clase (plantilla) para construir objetos vector disperso
 class VecSparse {
 public:
     VecSparse(const realVec &fullVec); // constructor
@@ -32,7 +32,7 @@ public:
     void SetSize(int n);
     void SetNnz(int n);
 
-        private:
+    private:
     realVec valA;
     intVec JA;
     int size = 0;

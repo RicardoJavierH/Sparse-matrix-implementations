@@ -13,8 +13,8 @@ int main(){
            { 1., 0., 2., 0., 0. },
            { 0., 3., 0., 0., 0. },
            { 0., 0., 4., 0., 5. },
-           { 6., 0., 0., 0., 0. },
-           { 0., 7., 0., 8., 0. },
+           { 6., 0., 0., 1., 0. },
+           { 0., 7., 0., 8., 1. },
     };
 
     std::vector<std::vector<double>> M2 = {
@@ -30,20 +30,17 @@ int main(){
 
     int nrows = 5;
     realVec B3 = {1., 1., 1., 1., 1.};
-    realVec valA;
-    intVec JA;
-    intVec IA = {0};
 
     //******* Operaciones con vectores dispersos ********
     std::cout << "*** Sparse vector Implementation with class structure ***" << std::endl;
 
     VecSparse spV(v); // Crea el objeto spV (vector en formato esparso)
-    spV.PrintJA((char*)"JB=");
-    spV.PrintValA((char*)"ValB=");
+    spV.PrintJA((char*)"JspV=");
+    spV.PrintValA((char*)"ValspV=");
 
     VecSparse spV2(v2);
-    spV2.PrintJA((char*)"JB2=");
-    spV2.PrintValA((char*)"ValB2=");
+    spV2.PrintJA((char*)"JspV2=");
+    spV2.PrintValA((char*)"ValspV2=");
 
     VecSparse spSum;
     symbolicSpVecVecSum(spV,spV2,spSum);
@@ -51,13 +48,19 @@ int main(){
     spSum.PrintJA((char*)"JspSum=");
     spSum.PrintValA((char*)"ValspSum=");
 
+
     //******* Operaciones con matrices dispersas ********
     std::cout << "*** Sparse matrix Implementation with class structure ***" << std::endl;
     MatSparseCSR spA(M1);
     spA.PrintValA((char*)"valspA=");
     spA.PrintIA((char*)"IspA=");
     spA.PrintJA((char*)"JspA=");
-    
+
+    std::cout << "*** Producto matriz dispersa - vector lleno" << std::endl;
+    realVec product;
+    spMatrixVectorProd(spA,B3,product);
+    printFullVector(product,(char*)"prod=");
+
 //    MatSparseCSR spAt;
 //    matTransposition(spA, spAt);
 //    spAt.PrintValA((char*)"spAt=");

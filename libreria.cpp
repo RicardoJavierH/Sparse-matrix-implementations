@@ -34,15 +34,20 @@ void printFullVector(const std::vector<T> & V, char* msg){
 template void printFullVector(const std::vector<double> & V, char* msg);
 template void printFullVector(const std::vector<int> & V, char* msg);
 
-void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intVec& JA, const realVec& B, realVec& prod){
+void spMatrixVectorProd(MatSparseCSR& spA, const realVec& fullvec, realVec& prod){
+    int n = spA.NRows();
     for (int i=0; i< n; i++){
         double f = 0;
+        intVec& IA = *spA.GetIA();
+        intVec& JA = *spA.GetJA();
+        realVec& valA = *spA.GetValA();
+
         double iaa = IA[i];
         double iab = IA[i+1]-1;
         
         if(iab >= iaa){
             for (int k=iaa; k<=iab; k++){
-                f = f + valA[k]*B[JA[k]];
+                f = f + valA[k]*fullvec[JA[k]];
             }
         }
         prod.push_back(f);
@@ -133,6 +138,10 @@ void NumericalSpVecVecSum(VecSparse& A, VecSparse& B, VecSparse& out) {
 void spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B,MatSparseCSR& Sum){
     int nrows = A.NRows();
     int ncols = B.NCols();
+
+    Sum.SetNrows(nrows);
+    Sum.SetNcols(ncols);
+
     intVec IX(ncols,0); // Create IX with size M and all entries zero
     intVec JC;
     intVec IC={0};
@@ -171,7 +180,8 @@ void spMatMatSymbolicSum(MatSparseCSR& A, MatSparseCSR& B,MatSparseCSR& Sum){
         IC.push_back(IP);
         
     }
-    
+
+    Sum.SetNnz(JC.size());
     Sum.SetIA(IC);
     Sum.SetJA(JC);
 }
@@ -281,6 +291,7 @@ void spMatMatSymbolicProd(MatSparseCSR& A, MatSparseCSR& B, MatSparseCSR& prod){
         
     }
     IC[NP+1]=IP;
+    prod.SetNnz(JC.size());
     prod.SetIA(IC);
     prod.SetJA(JC);
 }

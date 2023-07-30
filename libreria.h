@@ -24,7 +24,7 @@ template<class T>
 void printFullVector(const std::vector<T> & V, char* msg);
 
 // Producto de matriz dispersa con vector lleno
-void spMatrixVectorProd(int n, const realVec& valA, const intVec& IA, const intVec& JA, const realVec& B, realVec& prod);
+void spMatrixVectorProd(MatSparseCSR& spA, const realVec& fullvec, realVec& prod);
 
 // Producto de vector lleno con matriz dispersa
 void vectorSpMatProduct(const realVec& vect, MatSparseCSR& mat, realVec& C );
