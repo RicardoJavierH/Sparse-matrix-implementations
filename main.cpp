@@ -55,18 +55,13 @@ int main(){
     spA.PrintValA((char*)"valspA=");
     spA.PrintIA((char*)"IspA=");
     spA.PrintJA((char*)"JspA=");
-
-    std::cout << "*** Producto matriz dispersa - vector lleno" << std::endl;
-    realVec product;
-    spMatrixVectorProd(spA,B3,product);
-    printFullVector(product,(char*)"prod=");
-
-//    MatSparseCSR spAt;
-//    matTransposition(spA, spAt);
-//    spAt.PrintValA((char*)"spAt=");
-//    spAt.PrintIA((char*)"IspAt=");
-//    spAt.PrintJA((char*)"JspAt=");
-
+    
+    // Transpuesta de matriz dispersa 
+    MatSparseCSR spAt;
+    matTransposition(spA, spAt);
+    spAt.PrintValA((char*)"valspAt=");
+    spAt.PrintIA((char*)"IspAt=");
+    spAt.PrintJA((char*)"JspAt=");
     
     int size = spA.NCols();
     realVec resultVec(size);
