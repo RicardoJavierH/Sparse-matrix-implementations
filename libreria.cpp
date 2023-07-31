@@ -441,7 +441,6 @@ void matTransposition(MatSparseCSR& A, MatSparseCSR& At){
             for (int j=IAA; j<IAB+1; j++){
                 int rowt = JA[j];
                 int post = IAT[rowt];
-                int row =
                 JAT[post+iaux[rowt]] = i;
                 valAT[post+iaux[rowt]] = valA[j];
                 iaux[rowt]++;
